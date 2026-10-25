@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source__c</fullName>
+    <description>The Apex class, flow or job that reported the problem.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Where the error happened, for example CurrencyRateRefreshQueueable or Over_Policy_Alert.</inlineHelpText>
+    <label>Source</label>
+    <length>100</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

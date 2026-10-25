@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cancelled_On__c</fullName>
+    <description>Date the trip was cancelled. Set by the Cancel Trip action.</description>
+    <inlineHelpText>Filled in automatically when the trip is cancelled.</inlineHelpText>
+    <label>Cancelled On</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

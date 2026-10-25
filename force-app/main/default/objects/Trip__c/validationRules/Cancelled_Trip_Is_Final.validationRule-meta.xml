@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cancelled_Trip_Is_Final</fullName>
+    <active>true</active>
+    <description>A cancelled trip is closed for good: it cannot be reopened and its details, dates, cost and cancellation reason cannot be changed. Plan a new trip instead.</description>
+    <errorConditionFormula>AND(
+  NOT( ISNEW() ),
+  ISPICKVAL( PRIORVALUE( Status__c ), &quot;Cancelled&quot; ),
+  OR(
+    ISCHANGED( Status__c ),
+    ISCHANGED( Purpose__c ),
+    ISCHANGED( Trip_Type__c ),
+    ISCHANGED( Destination_City__c ),
+    ISCHANGED( Start_Date__c ),
+    ISCHANGED( End_Date__c ),
+    ISCHANGED( Estimated_Cost__c ),
+    ISCHANGED( Cancellation_Reason__c ),
+    ISCHANGED( Cancelled_On__c )
+  )
+)</errorConditionFormula>
+    <errorMessage>This trip is cancelled and can no longer be changed. Create a new trip instead.</errorMessage>
+</ValidationRule>

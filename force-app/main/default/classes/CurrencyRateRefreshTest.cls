@@ -50,6 +50,54 @@ private class CurrencyRateRefreshTest {
         Test.stopTest();
 
         System.assertEquals(0, [SELECT COUNT() FROM Currency_Rate__c], 'A failed call must not write rates');
+        Error_Log__c log = [SELECT Source__c, Severity__c, Message__c FROM Error_Log__c WITH SYSTEM_MODE];
+        System.assertEquals('CurrencyRateRefreshQueueable', log.Source__c);
+        System.assertEquals('Warning', log.Severity__c);
+        System.assert(log.Message__c.contains('HTTP 500'), log.Message__c);
+    }
+
+    private class FxTimeoutMock implements HttpCalloutMock {
+        public HttpResponse respond(HttpRequest request) {
+            throw new CalloutException('Read timed out');
+        }
+    }
+
+    private class FxBadJsonMock implements HttpCalloutMock {
+        public HttpResponse respond(HttpRequest request) {
+            HttpResponse response = new HttpResponse();
+            response.setStatusCode(200);
+            response.setBody('<html>maintenance</html>');
+            return response;
+        }
+    }
+
+    @IsTest
+    static void timeoutIsLoggedAndOldRatesKept() {
+        insert new Currency_Rate__c(Currency_Code__c = 'USD', Rate_To_INR__c = 90);
+        Test.setMock(HttpCalloutMock.class, new FxTimeoutMock());
+
+        Test.startTest();
+        System.enqueueJob(new CurrencyRateRefreshQueueable());
+        Test.stopTest();
+
+        System.assertEquals(90, [SELECT Rate_To_INR__c FROM Currency_Rate__c WHERE Currency_Code__c = 'USD'].Rate_To_INR__c,
+            'Yesterday\'s rate must survive a failed refresh');
+        Error_Log__c log = [SELECT Severity__c, Message__c FROM Error_Log__c WITH SYSTEM_MODE];
+        System.assertEquals('Error', log.Severity__c);
+        System.assert(log.Message__c.contains('Read timed out'), log.Message__c);
+    }
+
+    @IsTest
+    static void invalidJsonIsLogged() {
+        Test.setMock(HttpCalloutMock.class, new FxBadJsonMock());
+
+        Test.startTest();
+        System.enqueueJob(new CurrencyRateRefreshQueueable());
+        Test.stopTest();
+
+        System.assertEquals(0, [SELECT COUNT() FROM Currency_Rate__c]);
+        System.assertEquals(1, [SELECT COUNT() FROM Error_Log__c WHERE Source__c = 'CurrencyRateRefreshQueueable' WITH SYSTEM_MODE],
+            'A response that is not JSON must be logged, not crash the job');
     }
 
     @IsTest

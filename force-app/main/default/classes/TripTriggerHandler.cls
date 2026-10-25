@@ -30,7 +30,12 @@ public with sharing class TripTriggerHandler {
             return;
         }
         for (Trip__c trip : changed) {
-            sendNotification(typeId, trip);
+            // A failed bell must never roll back the approval that changed the status.
+            try {
+                sendNotification(typeId, trip);
+            } catch (Exception ex) {
+                ErrorLogger.log('TripTriggerHandler', ex, trip.Id);
+            }
         }
     }
 

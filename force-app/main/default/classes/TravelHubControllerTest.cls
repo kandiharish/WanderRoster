@@ -31,6 +31,25 @@ private class TravelHubControllerTest {
     }
 
     @IsTest
+    static void cancelledTripsDoNotCountTowardsBudget() {
+        Trip__c trip = new Trip__c(
+            Purpose__c = 'Training', Trip_Type__c = 'Domestic', Destination_City__c = 'Pune',
+            Start_Date__c = Date.today().addDays(3), End_Date__c = Date.today().addDays(4),
+            Estimated_Cost__c = 15000, Status__c = 'Cancelled'
+        );
+        insert trip;
+
+        Test.startTest();
+        TravelHubController.Summary summary = TravelHubController.getSummary();
+        List<Trip__c> trips = TravelHubController.getMyTrips();
+        Test.stopTest();
+
+        System.assertEquals(0, summary.totalEstimated, 'A cancelled trip has no budget');
+        System.assertEquals(0, summary.openTrips, 'A cancelled trip is not open');
+        System.assertEquals(1, trips.size(), 'It is still listed, with its Cancelled status');
+    }
+
+    @IsTest
     static void emptySummaryWhenNoTrips() {
         Test.startTest();
         TravelHubController.Summary summary = TravelHubController.getSummary();

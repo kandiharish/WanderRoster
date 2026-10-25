@@ -7,6 +7,9 @@
         <locationY>0</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
+        <faultConnector>
+            <targetReference>Log_Flow_Error</targetReference>
+        </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>customNotifTypeId</name>
@@ -94,6 +97,9 @@
         <connector>
             <targetReference>Get_Finance_Queue</targetReference>
         </connector>
+        <faultConnector>
+            <targetReference>Log_Flow_Error</targetReference>
+        </faultConnector>
         <inputAssignments>
             <field>Amount_INR__c</field>
             <value>
@@ -139,6 +145,38 @@
         <object>Policy_Violation__e</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordCreates>
+        <name>Log_Flow_Error</name>
+        <label>Log Flow Error</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Message__c</field>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Record_Id__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Severity__c</field>
+            <value>
+                <stringValue>Error</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Source__c</field>
+            <value>
+                <stringValue>Over_Policy_Alert</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Error_Log__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
     <recordLookups>
         <name>Get_Finance_Queue</name>
         <label>Get Finance Queue</label>
@@ -148,6 +186,9 @@
         <connector>
             <targetReference>Get_Trip_Alert_Type</targetReference>
         </connector>
+        <faultConnector>
+            <targetReference>Log_Flow_Error</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>DeveloperName</field>
@@ -177,6 +218,9 @@
         <connector>
             <targetReference>Add_Recipient</targetReference>
         </connector>
+        <faultConnector>
+            <targetReference>Log_Flow_Error</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>DeveloperName</field>

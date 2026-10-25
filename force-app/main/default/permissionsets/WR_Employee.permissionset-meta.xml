@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
+        <apexClass>TripCancellationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MyTripStatusAction</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -13,6 +17,16 @@
         <enabled>true</enabled>
     </classAccesses>
     <description>Base access for all employees: create and manage own trips and expenses.</description>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Trip__c.Cancellation_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Trip__c.Cancelled_On__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Trip__c.Booking_Reference__c</field>
@@ -156,4 +170,8 @@
         <tab>Trip__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>RunFlow</name>
+    </userPermissions>
 </PermissionSet>

@@ -3,10 +3,12 @@
  * and upserts them into Currency_Rate__c.
  *
  * Runs asynchronously (Queueable) because callouts are not allowed in triggers
- * or synchronous transactions. Failures are logged and leave the old rates in place.
+ * or synchronous transactions. Any failure (HTTP error, timeout, bad JSON, save
+ * error) is written to Error_Log__c and leaves yesterday's rates in place.
  */
 public with sharing class CurrencyRateRefreshQueueable implements Queueable, Database.AllowsCallouts {
 
+    private static final String SOURCE = 'CurrencyRateRefreshQueueable';
     private static final Set<String> TRACKED_CURRENCIES = new Set<String>{ 'USD', 'EUR', 'GBP', 'AED', 'SGD' };
 
     public void execute(QueueableContext context) {
@@ -15,15 +17,29 @@ public with sharing class CurrencyRateRefreshQueueable implements Queueable, Dat
         request.setMethod('GET');
         request.setTimeout(10000);
 
-        HttpResponse response = new Http().send(request);
-        if (response.getStatusCode() != 200) {
-            System.debug(LoggingLevel.ERROR, 'FX refresh failed with status ' + response.getStatusCode());
-            return;
-        }
+        try {
+            HttpResponse response = new Http().send(request);
+            if (response.getStatusCode() != 200) {
+                ErrorLogger.log(SOURCE, 'FX API returned HTTP ' + response.getStatusCode()
+                    + '. Existing rates were kept.', null, ErrorLogger.WARNING);
+                return;
+            }
 
-        List<Currency_Rate__c> rates = parseRates(response.getBody());
-        if (!rates.isEmpty()) {
-            upsert rates Currency_Code__c;
+            List<Currency_Rate__c> rates = parseRates(response.getBody());
+            if (rates.isEmpty()) {
+                ErrorLogger.log(SOURCE, 'FX API response had no tracked currencies. Existing rates were kept.',
+                    null, ErrorLogger.WARNING);
+                return;
+            }
+            ErrorLogger.logFailures(SOURCE, Database.upsert(rates, Currency_Rate__c.Currency_Code__c, false), rates);
+        } catch (CalloutException ex) {
+            // Timeout, DNS failure or Named Credential problem.
+            ErrorLogger.log(SOURCE, ex, null);
+        } catch (JSONException ex) {
+            ErrorLogger.log(SOURCE, ex, null);
+        } catch (TypeException ex) {
+            // JSON was valid but not in the expected shape.
+            ErrorLogger.log(SOURCE, ex, null);
         }
     }
 

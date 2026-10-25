@@ -75,4 +75,32 @@ private class AgentActionsTest {
             System.assert(res.summary.contains('Kochi'), 'Summary lists the trip');
         }
     }
+
+    @IsTest
+    static void tripStatusAnswersEveryRequest() {
+        System.runAs(employee()) {
+            List<Trip__c> trips = new List<Trip__c>();
+            for (Integer i = 0; i < 3; i++) {
+                trips.add(new Trip__c(
+                    Purpose__c = 'Training', Trip_Type__c = 'Domestic', Destination_City__c = 'City ' + i,
+                    Start_Date__c = Date.today().addDays(2 + i), End_Date__c = Date.today().addDays(3 + i),
+                    Estimated_Cost__c = 8000
+                ));
+            }
+            insert trips;
+
+            MyTripStatusAction.Request one = new MyTripStatusAction.Request();
+            one.maxTrips = 1;
+            MyTripStatusAction.Request tooMany = new MyTripStatusAction.Request();
+            tooMany.maxTrips = 50;
+            List<MyTripStatusAction.Result> results = MyTripStatusAction.getStatus(
+                new List<MyTripStatusAction.Request>{ one, tooMany, null });
+
+            System.assertEquals(3, results.size(), 'Invocable actions return one result per request');
+            System.assertEquals(1, results[0].tripCount, 'First request asked for one trip');
+            System.assertEquals(3, results[1].tripCount, 'Capped at 10, and only 3 exist');
+            System.assertEquals(3, results[2].tripCount, 'A missing request uses the default of 5');
+            System.assert(results[0].summary.contains('City 2'), 'Latest trip comes first');
+        }
+    }
 }

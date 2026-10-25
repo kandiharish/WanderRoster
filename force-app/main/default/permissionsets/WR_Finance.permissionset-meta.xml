@@ -7,6 +7,16 @@
     <description>Finance team: record reimbursement payment details on trips.</description>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Trip__c.Cancellation_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Trip__c.Cancelled_On__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Trip__c.Booking_Reference__c</field>
         <readable>true</readable>
     </fieldPermissions>

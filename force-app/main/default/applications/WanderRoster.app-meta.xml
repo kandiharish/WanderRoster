@@ -20,6 +20,7 @@
     <tabs>Currency_Rate__c</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>Error_Log__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>WanderRoster_UtilityBar</utilityBar>
 </CustomApplication>

@@ -11,6 +11,7 @@
 public with sharing class ClaimReminderBatch implements Database.Batchable<SObject>, Schedulable {
 
     private static final Integer REMINDER_EVERY_DAYS = 7;
+    private static final String SOURCE = 'ClaimReminderBatch';
 
     // Tests set this to simulate a future date; in production it is today.
     @TestVisible
@@ -53,11 +54,20 @@ public with sharing class ClaimReminderBatch implements Database.Batchable<SObje
             }
         }
 
+        // Partial success: one bad trip (for example a validation rule) must not stop
+        // the rest of the chunk. Failures are written to Error_Log__c.
         if (!tripsToComplete.isEmpty()) {
-            update tripsToComplete;
+            ErrorLogger.logFailures(SOURCE, Database.update(tripsToComplete, false), tripsToComplete);
         }
         if (!reminders.isEmpty()) {
-            insert reminders;
+            List<Database.SaveResult> results = Database.insert(reminders, false);
+            for (Integer i = 0; i < results.size(); i++) {
+                if (!results[i].isSuccess()) {
+                    // A Task has no Id when its insert fails, so log against the trip instead.
+                    ErrorLogger.log(SOURCE, 'Reminder not created: ' + results[i].getErrors()[0].getMessage(),
+                        reminders[i].WhatId, ErrorLogger.ERROR);
+                }
+            }
         }
     }
 
