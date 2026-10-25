@@ -1,5 +1,5 @@
 // WanderRoster demo data for the CFO dashboard. Expenses are tagged "[Demo]" in Description.
-// Run: sf apex run -f scripts/apex/demoData.apex
+// Run: sf apex run -f scripts/setup/4-demoData.apex
 Map<String, Id> u = new Map<String, Id>();
 for (User usr : [SELECT Id, Name FROM User WHERE Name IN ('Priya Sharma','Rahul Verma','Anita Rao','Kali Iyer','Harish Kandi')]) {
     u.put(usr.Name, usr.Id);

@@ -46,3 +46,6 @@ $RECYCLE.BIN/
 **/__pycache__/
 **/.venv/
 **/venv/
+
+# Local scratch queries (not part of the project)
+scripts/soql/
