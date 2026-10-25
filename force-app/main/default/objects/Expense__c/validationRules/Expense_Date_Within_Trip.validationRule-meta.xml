@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expense_Date_Within_Trip</fullName>
+    <active>true</active>
+    <description>Expense date must fall within the trip dates. Flights may be booked before the trip starts.</description>
+    <errorConditionFormula>OR(
+  Expense_Date__c &gt; Trip__r.End_Date__c,
+  AND(
+    NOT( ISPICKVAL( Category__c, &quot;Flight&quot; ) ),
+    Expense_Date__c &lt; Trip__r.Start_Date__c
+  )
+)</errorConditionFormula>
+    <errorDisplayField>Expense_Date__c</errorDisplayField>
+    <errorMessage>Expense date must be within the trip dates (flights may be booked earlier).</errorMessage>
+</ValidationRule>

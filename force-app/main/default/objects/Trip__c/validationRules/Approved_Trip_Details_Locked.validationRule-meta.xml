@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approved_Trip_Details_Locked</fullName>
+    <active>true</active>
+    <description>Once a trip is approved, its approved details cannot change. Replaces the approval-process record lock, which also blocked booking references, expenses and claim submission.</description>
+    <errorConditionFormula>AND(
+  OR(
+    ISPICKVAL(Status__c, &quot;Approved&quot;),
+    ISPICKVAL(Status__c, &quot;Completed&quot;)
+  ),
+  OR(
+    ISCHANGED(Purpose__c),
+    ISCHANGED(Trip_Type__c),
+    ISCHANGED(Destination_City__c),
+    ISCHANGED(Start_Date__c),
+    ISCHANGED(End_Date__c),
+    ISCHANGED(Estimated_Cost__c)
+  )
+)</errorConditionFormula>
+    <errorMessage>This trip is already approved. Its purpose, destination, dates and estimated cost can no longer be changed.</errorMessage>
+</ValidationRule>

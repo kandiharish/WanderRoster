@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agency_Can_Only_Edit_Booking_Reference</fullName>
+    <active>true</active>
+    <description>Partner portal (travel agency) users may only fill Booking Reference. Required fields cannot be locked by field-level security, so this rule protects them.</description>
+    <errorConditionFormula>AND(
+  ISPICKVAL($User.UserType, &quot;PowerPartner&quot;),
+  OR(
+    ISCHANGED(Purpose__c),
+    ISCHANGED(Trip_Type__c),
+    ISCHANGED(Destination_City__c),
+    ISCHANGED(Start_Date__c),
+    ISCHANGED(End_Date__c),
+    ISCHANGED(Estimated_Cost__c)
+  )
+)</errorConditionFormula>
+    <errorMessage>Travel agencies can only update the Booking Reference. Contact the employee to change trip details.</errorMessage>
+</ValidationRule>

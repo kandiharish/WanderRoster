@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Grade__c</fullName>
+    <description>Employee grade this limit applies to.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Grade</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>G1 - Associate</fullName>
+                <default>true</default>
+                <label>G1 - Associate</label>
+            </value>
+            <value>
+                <fullName>G2 - Senior Associate</fullName>
+                <default>false</default>
+                <label>G2 - Senior Associate</label>
+            </value>
+            <value>
+                <fullName>G3 - Manager</fullName>
+                <default>false</default>
+                <label>G3 - Manager</label>
+            </value>
+            <value>
+                <fullName>G4 - Director</fullName>
+                <default>false</default>
+                <label>G4 - Director</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

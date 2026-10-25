@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries><aggregate>Sum</aggregate><axisBinding>y</axisBinding><column>Trip__c.Expenses__r$Amount_INR__c</column></chartSummaries>
+        <chartType>Line</chartType>
+        <enableHoverLabels>true</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>Trip__c.Expenses__r$Expense_Date__c</groupingColumn>
+        
+        <location>CHART_TOP</location>
+        <showAxisLabels>true</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>true</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns><field>Trip__c.Expenses__r$Name</field></columns><columns><field>Trip__c$Name</field></columns><columns><field>Trip__c.Expenses__r$Category__c</field></columns><columns><aggregateTypes>Sum</aggregateTypes><field>Trip__c.Expenses__r$Amount_INR__c</field></columns>
+    <description>Travel spend (INR) by expense month.</description>
+    
+    <format>Summary</format>
+    <groupingsDown><dateGranularity>Month</dateGranularity><field>Trip__c.Expenses__r$Expense_Date__c</field><sortOrder>Asc</sortOrder></groupingsDown>
+    <name>Monthly Spend Trend</name>
+    <params><name>co</name><value>1</value></params>
+    <reportType>WR_Trips_with_Expenses__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Trip__c$Start_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

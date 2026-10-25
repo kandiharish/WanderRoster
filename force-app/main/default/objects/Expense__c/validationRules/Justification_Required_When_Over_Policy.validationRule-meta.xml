@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Justification_Required_When_Over_Policy</fullName>
+    <active>true</active>
+    <description>Employee must justify any expense that exceeds the policy limit.</description>
+    <errorConditionFormula>AND(
+  Over_Policy__c,
+  ISBLANK( Justification__c )
+)</errorConditionFormula>
+    <errorDisplayField>Justification__c</errorDisplayField>
+    <errorMessage>This expense is over your policy limit. Please enter a Justification.</errorMessage>
+</ValidationRule>

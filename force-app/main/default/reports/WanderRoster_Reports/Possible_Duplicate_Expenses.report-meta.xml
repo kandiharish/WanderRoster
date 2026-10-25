@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    
+    <columns><field>Trip__c.Expenses__r$Name</field></columns><columns><field>Trip__c$Name</field></columns><columns><field>Trip__c.Expenses__r$Expense_Date__c</field></columns><columns><field>Trip__c.Expenses__r$Category__c</field></columns><columns><field>Trip__c.Expenses__r$Amount__c</field></columns><columns><field>Trip__c.Expenses__r$Currency_Code__c</field></columns><columns><aggregateTypes>Sum</aggregateTypes><field>Trip__c.Expenses__r$Amount_INR__c</field></columns>
+    <description>Expenses flagged by the duplicate check (same owner, date, category, amount, currency).</description>
+    <filter><criteriaItems><column>Trip__c.Expenses__r$Possible_Duplicate__c</column><isUnlocked>true</isUnlocked><operator>equals</operator><value>1</value></criteriaItems></filter>
+    <format>Summary</format>
+    <groupingsDown><dateGranularity>Day</dateGranularity><field>Trip__c$Owner</field><sortOrder>Asc</sortOrder></groupingsDown>
+    <name>Possible Duplicate Expenses</name>
+    <params><name>co</name><value>1</value></params>
+    <reportType>WR_Trips_with_Expenses__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Trip__c$Start_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

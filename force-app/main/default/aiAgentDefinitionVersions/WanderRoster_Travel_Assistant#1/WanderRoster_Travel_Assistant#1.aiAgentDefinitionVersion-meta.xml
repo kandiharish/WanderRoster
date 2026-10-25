@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AiAgentDefinitionVersion xmlns="http://soap.sforce.com/2006/04/metadata">
+    <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
+    <billingMode>ActionBased</billingMode>
+    <citationsEnabled>false</citationsEnabled>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The agent instructions</description>
+        <developerName>AgentScriptInternal_agent_instructions</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Agent Instructions</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The next topic to be visited</description>
+        <developerName>AgentScriptInternal_next_topic</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Next Topic</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <copilotPrimaryLanguage>en_US</copilotPrimaryLanguage>
+    <genAiPlannerName>WanderRoster_Travel_Assistant_v1</genAiPlannerName>
+    <isScriptCompatibleAgent>true</isScriptCompatibleAgent>
+    <knowledgeActionEnabled>false</knowledgeActionEnabled>
+    <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
+    <planner>
+        <fullName>WanderRoster_Travel_Assistant_v1</fullName>
+        <agentGraphRef>20Zg8000006GP5S</agentGraphRef>
+        <description>Helps upquotient.com employees check whether a travel expense is within their grade&apos;s policy limit and see the status of their own trips and expense claims.</description>
+        <localTopicLinks>
+            <genAiPluginName>agent_router</genAiPluginName>
+        </localTopicLinks>
+        <localTopicLinks>
+            <genAiPluginName>ambiguous_question</genAiPluginName>
+        </localTopicLinks>
+        <localTopicLinks>
+            <genAiPluginName>off_topic</genAiPluginName>
+        </localTopicLinks>
+        <localTopicLinks>
+            <genAiPluginName>travel_policy_and_claims</genAiPluginName>
+        </localTopicLinks>
+        <localTopics>
+            <canEscalate>false</canEscalate>
+            <description>Welcome the employee and route the question to the right subagent.</description>
+            <genAiPluginInstructions>
+                <description>You are the WanderRoster Travel Assistant for upquotient.com employees. You answer questions about the company travel expense policy and about the employee&apos;s own trips and expense claims. You always get facts from your actions and never guess policy limits or amounts.</description>
+                <developerName>instruction0_179g8000002MwFY</developerName>
+                <language>en_US</language>
+                <masterLabel>instruction0_179g8000002MwFY</masterLabel>
+                <sortOrder>1</sortOrder>
+            </genAiPluginInstructions>
+            <language>en_US</language>
+            <localDeveloperName>agent_router</localDeveloperName>
+            <masterLabel>Agent Router</masterLabel>
+            <pluginType>Topic</pluginType>
+        </localTopics>
+        <localTopics>
+            <canEscalate>false</canEscalate>
+            <description>Redirect conversation to relevant topics when user request is too ambiguous</description>
+            <genAiPluginInstructions>
+                <description>You are the WanderRoster Travel Assistant for upquotient.com employees. You answer questions about the company travel expense policy and about the employee&apos;s own trips and expense claims. You always get facts from your actions and never guess policy limits or amounts.</description>
+                <developerName>instruction0_179g8000002MwFW</developerName>
+                <language>en_US</language>
+                <masterLabel>instruction0_179g8000002MwFW</masterLabel>
+                <sortOrder>1</sortOrder>
+            </genAiPluginInstructions>
+            <language>en_US</language>
+            <localDeveloperName>ambiguous_question</localDeveloperName>
+            <masterLabel>Ambiguous Question</masterLabel>
+            <pluginType>Topic</pluginType>
+        </localTopics>
+        <localTopics>
+            <canEscalate>false</canEscalate>
+            <description>Redirect conversation to relevant topics when user request goes off-topic</description>
+            <genAiPluginInstructions>
+                <description>You are the WanderRoster Travel Assistant for upquotient.com employees. You answer questions about the company travel expense policy and about the employee&apos;s own trips and expense claims. You always get facts from your actions and never guess policy limits or amounts.</description>
+                <developerName>instruction0_179g8000002MwFV</developerName>
+                <language>en_US</language>
+                <masterLabel>instruction0_179g8000002MwFV</masterLabel>
+                <sortOrder>1</sortOrder>
+            </genAiPluginInstructions>
+            <language>en_US</language>
+            <localDeveloperName>off_topic</localDeveloperName>
+            <masterLabel>Off Topic</masterLabel>
+            <pluginType>Topic</pluginType>
+        </localTopics>
+        <localTopics>
+            <canEscalate>false</canEscalate>
+            <description>Answers employee questions about travel expense policy limits, whether an expense is allowed, receipt rules, and the status of their own trips and expense claims.</description>
+            <genAiPluginInstructions>
+                <description>You are the WanderRoster Travel Assistant for upquotient.com employees. You answer questions about the company travel expense policy and about the employee&apos;s own trips and expense claims. You always get facts from your actions and never guess policy limits or amounts.</description>
+                <developerName>instruction0_179g8000002MwFX</developerName>
+                <language>en_US</language>
+                <masterLabel>instruction0_179g8000002MwFX</masterLabel>
+                <sortOrder>1</sortOrder>
+            </genAiPluginInstructions>
+            <language>en_US</language>
+            <localActionLinks>
+                <functionName>get_my_trip_status</functionName>
+            </localActionLinks>
+            <localActionLinks>
+                <functionName>check_expense_policy</functionName>
+            </localActionLinks>
+            <localActions>
+                <description>Checks whether an expense amount for a category is within the current employee&apos;s travel policy limit for their grade. Converts foreign currency to INR and says whether a receipt is required.</description>
+                <invocationTarget>PolicyCheckAction</invocationTarget>
+                <invocationTargetType>apex</invocationTargetType>
+                <isConfirmationRequired>false</isConfirmationRequired>
+                <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+                <localDeveloperName>check_expense_policy</localDeveloperName>
+                <masterLabel>Check Expense Against Travel Policy</masterLabel>
+                <progressIndicatorMessage>Checking your travel policy...</progressIndicatorMessage>
+            </localActions>
+            <localActions>
+                <description>Returns the current employee&apos;s latest trips with destination, dates, trip approval status, claim status and amount spent.</description>
+                <invocationTarget>MyTripStatusAction</invocationTarget>
+                <invocationTargetType>apex</invocationTargetType>
+                <isConfirmationRequired>false</isConfirmationRequired>
+                <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+                <localDeveloperName>get_my_trip_status</localDeveloperName>
+                <masterLabel>Get My Trip and Claim Status</masterLabel>
+                <progressIndicatorMessage>Looking up your trips...</progressIndicatorMessage>
+            </localActions>
+            <localDeveloperName>travel_policy_and_claims</localDeveloperName>
+            <masterLabel>Travel Policy and Claims</masterLabel>
+            <pluginType>Topic</pluginType>
+        </localTopics>
+        <masterLabel>WanderRoster Travel Assistant</masterLabel>
+        <plannerType>Atlas__ConcurrentMultiAgentOrchestration</plannerType>
+    </planner>
+    <smallTalkEnabled>false</smallTalkEnabled>
+    <staticPromptsEnabled>false</staticPromptsEnabled>
+    <status>Inactive</status>
+    <stopRecPrompts>false</stopRecPrompts>
+    <surfacesEnabled>false</surfacesEnabled>
+    <toneType>Casual</toneType>
+    <version>1</version>
+    <welcomeMessage>Hi! I&apos;m your WanderRoster Travel Assistant. Ask me things like &quot;Can I expense a 6000 rupee hotel for one night?&quot; or &quot;What is the status of my trips?&quot;</welcomeMessage>
+</AiAgentDefinitionVersion>

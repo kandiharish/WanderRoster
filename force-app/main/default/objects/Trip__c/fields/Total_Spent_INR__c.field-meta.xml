@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Spent_INR__c</fullName>
+    <label>Total Spent (INR)</label>
+    <summarizedField>Expense__c.Amount_INR__c</summarizedField>
+    <summaryForeignKey>Expense__c.Trip__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

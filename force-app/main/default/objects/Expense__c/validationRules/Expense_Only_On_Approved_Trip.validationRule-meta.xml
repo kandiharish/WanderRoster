@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expense_Only_On_Approved_Trip</fullName>
+    <active>true</active>
+    <description>Expenses can only be added to trips that are Approved or Completed.</description>
+    <errorConditionFormula>AND(
+  ISNEW(),
+  NOT(
+    OR(
+      ISPICKVAL( Trip__r.Status__c, &quot;Approved&quot; ),
+      ISPICKVAL( Trip__r.Status__c, &quot;Completed&quot; )
+    )
+  )
+)</errorConditionFormula>
+    <errorMessage>You can add expenses only after your trip is approved.</errorMessage>
+</ValidationRule>

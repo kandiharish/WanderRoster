@@ -1,0 +1,35 @@
+{
+  "required" : [ "category", "amount" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "amount" : {
+      "title" : "Amount",
+      "description" : "The amount the employee wants to spend or claim.",
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "category" : {
+      "title" : "Expense Category",
+      "description" : "Expense type: Flight, Hotel, Meals, Local Transport or Other.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "currencyCode" : {
+      "title" : "Currency Code",
+      "description" : "ISO currency code such as INR, USD, EUR, GBP, AED or SGD. Use INR if not stated.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "nights" : {
+      "title" : "Nights",
+      "description" : "Number of nights. Only for Hotel; use 1 if not stated.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

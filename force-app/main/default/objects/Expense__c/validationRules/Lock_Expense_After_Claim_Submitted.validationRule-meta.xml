@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lock_Expense_After_Claim_Submitted</fullName>
+    <active>true</active>
+    <description>Expenses cannot be added or changed once the claim is submitted, unless it was rejected.</description>
+    <errorConditionFormula>AND(
+  NOT( ISPICKVAL( Trip__r.Claim_Status__c, &quot;Not Submitted&quot; ) ),
+  NOT( ISPICKVAL( Trip__r.Claim_Status__c, &quot;Rejected&quot; ) )
+)</errorConditionFormula>
+    <errorMessage>This claim is already submitted. Expenses are locked.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Share_Submitted_Claims_with_Finance</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Finance team can view and process trips once a claim is submitted.</description>
+        <label>Share Submitted Claims with Finance</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>CFO</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>Claim_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Not Submitted</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Approved_Trips_with_Travel_Agencies</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>External travel agencies see approved trips in the partner portal so they can book tickets and enter the booking reference.</description>
+        <label>Share Approved Trips with Travel Agencies</label>
+        <sharedTo>
+            <group>Travel_Agencies</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Approved</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

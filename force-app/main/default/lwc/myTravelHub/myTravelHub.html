@@ -1,0 +1,94 @@
+<template>
+    <lightning-card title="My Travel Hub" icon-name="custom:custom20">
+        <div slot="actions">
+            <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" title="Refresh"
+                onclick={handleRefresh} class="slds-m-right_x-small"></lightning-button-icon>
+            <lightning-button variant="brand" label="New Trip" icon-name="utility:add"
+                onclick={handleNewTrip}></lightning-button>
+        </div>
+
+        <div class="slds-p-horizontal_medium">
+            <template lwc:if={error}>
+                <div class="slds-text-color_error slds-m-bottom_small">{error}</div>
+            </template>
+
+            <template lwc:if={summary}>
+                <div class="slds-grid slds-wrap slds-gutters_x-small slds-m-bottom_medium">
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                        <div class="tile">
+                            <p class="tile-label">Open trips</p>
+                            <p class="tile-value">{summary.openTrips}</p>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                        <div class="tile">
+                            <p class="tile-label">Claims in approval</p>
+                            <p class="tile-value">{summary.pendingClaims}</p>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                        <div class="tile">
+                            <p class="tile-label">Spent this year</p>
+                            <p class="tile-value">
+                                <lightning-formatted-number value={summary.totalSpent} format-style="currency"
+                                    currency-code="INR" maximum-fraction-digits="0"></lightning-formatted-number>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-medium-size_1-of-4">
+                        <div class="tile">
+                            <p class="tile-label">Reimbursed</p>
+                            <p class="tile-value">
+                                <lightning-formatted-number value={summary.reimbursed} format-style="currency"
+                                    currency-code="INR" maximum-fraction-digits="0"></lightning-formatted-number>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-m-bottom_medium">
+                    <lightning-progress-bar value={budgetBarValue} size="large"></lightning-progress-bar>
+                    <p class={budgetClass}>
+                        {budgetMessage} · Grade: {summary.grade} · Over-policy expenses: {summary.overPolicyExpenses}
+                    </p>
+                </div>
+            </template>
+
+            <template lwc:if={showAlerts}>
+                <div class="alerts slds-m-bottom_medium">
+                    <h3 class="slds-text-heading_small slds-m-bottom_x-small">
+                        <lightning-icon icon-name="utility:warning" size="x-small" variant="warning"
+                            class="slds-m-right_x-small"></lightning-icon>
+                        Live policy alerts
+                    </h3>
+                    <template lwc:if={hasAlerts}>
+                        <ul class="slds-has-dividers_bottom-space">
+                            <template for:each={alerts} for:item="alert">
+                                <li key={alert.key} class="slds-item">
+                                    <a href={alert.url}>{alert.expenseName}</a> · {alert.text} ·
+                                    <lightning-formatted-number value={alert.amount} format-style="currency"
+                                        currency-code="INR"></lightning-formatted-number>
+                                    (limit
+                                    <lightning-formatted-number value={alert.limit} format-style="currency"
+                                        currency-code="INR"></lightning-formatted-number>)
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+                    <template lwc:else>
+                        <p class="slds-text-color_weak">Listening… new over-policy expenses appear here instantly.</p>
+                    </template>
+                </div>
+            </template>
+
+            <h3 class="slds-text-heading_small slds-m-bottom_x-small">My recent trips</h3>
+            <template lwc:if={hasTrips}>
+                <lightning-datatable key-field="Id" data={trips} columns={columns}
+                    hide-checkbox-column></lightning-datatable>
+            </template>
+            <template lwc:else>
+                <p class="slds-text-color_weak slds-m-bottom_small">No trips yet. Click New Trip to plan one.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

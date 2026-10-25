@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Over_Policy__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Ticked by system when Amount (INR) is more than Policy Limit (INR).</description>
+    <inlineHelpText>Ticked automatically if you spent more than your limit.</inlineHelpText>
+    <label>Over Policy</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
